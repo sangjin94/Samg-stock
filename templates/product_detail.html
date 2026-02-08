@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-3">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+    <div>
+      <div class="pill">등록 모드</div>
+      <div class="fw-bold fs-4 mt-1">{{ product.item_name }}</div>
+      <div class="muted">
+        상품코드: <span class="fw-semibold">{{ product.item_code }}</span>
+        · 바코드: <span class="fw-semibold">{{ product.scan_code }}</span>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <a class="btn btn-soft" href="{{ url_for('register_home') }}">목록</a>
+      <a class="btn btn-ghost" href="{{ url_for('view_product_detail', item_code=item_code) }}">조회 화면</a>
+    </div>
+  </div>
+
+  <hr/>
+
+  <div class="row g-3">
+    <div class="col-lg-6">
+      <div class="card p-3 h-100">
+        <div class="fw-bold mb-2">비고</div>
+        <form method="post">
+          <input type="hidden" name="_action" value="save_remark">
+          <textarea class="form-control" name="remark" rows="4" placeholder="비고 입력">{{ product.remark or "" }}</textarea>
+          <button class="btn btn-soft mt-2">비고 저장</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card p-3 h-100">
+        <div class="fw-bold mb-2">사진 업로드</div>
+        <form method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_action" value="upload_photos">
+          <input class="form-control" type="file" name="photos" multiple accept="image/*">
+          <div class="muted small mt-2">* 여러 장 선택 가능 / 자동 저용량 변환 저장</div>
+          <button class="btn btn-pink mt-3 w-100">업로드</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <div class="fw-bold mb-2">등록된 사진 ({{ photos|length }}장)</div>
+  <div class="row g-3">
+    {% for ph in photos %}
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card p-2">
+        <img src="{{ ph.url }}" style="width:100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 14px; border:1px solid rgba(255,74,166,.18);">
+        <div class="mt-2">
+          <div class="small fw-semibold">{{ ph.filename }}</div>
+          <div class="muted small">{{ ph.uploaded_at }}</div>
+          <form class="mt-2" method="post" action="{{ url_for('register_delete_photo', photo_id=ph.id) }}"
+                onsubmit="return confirm('정말 삭제할까요? (S3 원본도 삭제됩니다)')">
+            <button class="btn btn-soft btn-sm w-100">삭제</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

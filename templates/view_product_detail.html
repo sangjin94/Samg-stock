@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-3">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+    <div>
+      <div class="pill">조회 모드</div>
+      <div class="fw-bold fs-4 mt-1">{{ product.item_name }}</div>
+      <div class="muted">
+        상품코드: <span class="fw-semibold">{{ product.item_code }}</span>
+        · 바코드: <span class="fw-semibold">{{ product.scan_code }}</span>
+      </div>
+      {% if product.remark %}
+      <div class="muted mt-1">비고: {{ product.remark }}</div>
+      {% endif %}
+    </div>
+    <div class="d-flex gap-2">
+      <a class="btn btn-soft" href="{{ url_for('view_products') }}">목록</a>
+      <a class="btn btn-ghost" href="{{ url_for('register_product_detail', item_code=item_code) }}">등록 화면</a>
+    </div>
+  </div>
+
+  <hr/>
+
+  <div class="muted small mb-2">
+    * Presigned URL은 만료될 수 있어 자동 새로고침합니다.
+  </div>
+
+  <div class="row g-3" id="photoGrid">
+    {% for ph in photos %}
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card p-2">
+        <img data-photo-id="{{ ph.id }}" src="{{ ph.url }}"
+             style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:14px; border:1px solid rgba(255,74,166,.18);">
+        <div class="mt-2">
+          <div class="small fw-semibold">{{ ph.filename }}</div>
+          <div class="muted small">{{ ph.uploaded_at }}</div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const ITEM_CODE = "{{ item_code }}";
+  const EXPIRES = Number("{{ presigned_expires }}") || 1800;
+  const MARGIN = Number("{{ presigned_refresh_margin }}") || 120;
+
+  function refreshPresigned(){
+    fetch(`/api/presign/photos?item_code=${encodeURIComponent(ITEM_CODE)}`)
+      .then(r => r.json())
+      .then(data => {
+        if(!data || !data.ok) return;
+        const map = new Map();
+        (data.photos || []).forEach(p => map.set(String(p.id), p.url));
+
+        document.querySelectorAll("img[data-photo-id]").forEach(img => {
+          const id = img.getAttribute("data-photo-id");
+          const url = map.get(String(id));
+          if(url) img.src = url;
+        });
+      })
+      .catch(()=>{});
+  }
+
+  // (EXPIRES - MARGIN)초 마다 갱신
+  const intervalSec = Math.max(60, EXPIRES - MARGIN);
+  setInterval(refreshPresigned, intervalSec * 1000);
+</script>
+{% endblock %}

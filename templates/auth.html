@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card p-4">
+      <h4 class="fw-bold mb-1">{{ title }}</h4>
+      <div class="muted mb-3">
+        {{ "조회 모드" if mode=="view" else "등록 모드" }} 진입을 위해 암호키를 입력하세요.
+      </div>
+
+      <form method="post">
+        <input type="hidden" name="next_url" value="{{ next_url }}">
+        <div class="mb-3">
+          <label class="form-label">암호키</label>
+          <input class="form-control form-control-lg" type="password" name="password" placeholder="암호키 입력" autofocus>
+        </div>
+        <button class="btn btn-pink w-100 btn-lg">입장</button>
+      </form>
+
+      <div class="mt-3 small muted">
+        문제가 있으면 관리자에게 암호키를 요청하세요.
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

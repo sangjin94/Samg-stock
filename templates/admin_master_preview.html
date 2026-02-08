@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-3">
+  <div class="pill">관리자</div>
+  <div class="fw-bold fs-4 mt-1">마스터 업로드 미리보기</div>
+  <div class="muted mb-3">업로드 파일: <span class="fw-semibold">{{ uploaded_name }}</span></div>
+
+  <div class="row g-3 mb-3">
+    <div class="col-md-4">
+      <div class="card p-3 h-100">
+        <div class="fw-bold">총 행</div>
+        <div class="fs-3 fw-bold">{{ meta.rows }}</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3 h-100">
+        <div class="fw-bold">중복 ITEM_CODE</div>
+        <div class="fs-3 fw-bold">{{ meta.dup_count }}</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3 h-100">
+        <div class="fw-bold">컬럼</div>
+        <div class="muted small">{{ meta.columns|join(", ") }}</div>
+      </div>
+    </div>
+  </div>
+
+  {% if meta.warnings and meta.warnings|length > 0 %}
+  <div class="alert alert-warning">
+    {% for w in meta.warnings %}
+      <div>• {{ w }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="fw-bold mb-2">미리보기 (상위 30행)</div>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          {% for c in meta.columns %}
+          <th>{{ c }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in preview %}
+        <tr>
+          {% for c in meta.columns %}
+          <td>{{ row[c] }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <form class="d-flex gap-2 mt-3" method="post" action="{{ url_for('admin_master_upload_confirm') }}">
+    <button class="btn btn-pink flex-fill" name="_action" value="confirm"
+            onclick="return confirm('마스터를 반영할까요? (기존 사진/S3는 유지되고, 제외 상품은 비활성 처리됩니다)')">
+      확정 반영
+    </button>
+    <button class="btn btn-soft flex-fill" name="_action" value="cancel">
+      취소
+    </button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,209 @@
+/* =========================
+   SAMG / 캐치티니핑 Pink Theme
+   - Center Pink Tone
+   - Soft gradients + cute rounded UI
+========================= */
+
+:root{
+  --pink-50:  #fff0f7;
+  --pink-100: #ffe1f0;
+  --pink-200: #ffc6e4;
+  --pink-300: #ff9fce;
+  --pink-400: #ff78ba;
+  --pink-500: #ff4aa6;
+  --pink-600: #f12a95;
+  --pink-700: #d81d80;
+
+  --purple-500: #8a4dff;
+  --sky-200: #bfe7ff;
+
+  --text: #1f1f1f;
+  --muted: #6b6b6b;
+  --card: rgba(255,255,255,.86);
+  --border: rgba(255, 74, 166, .18);
+  --shadow: 0 14px 30px rgba(255, 74, 166, .16);
+
+  --radius: 18px;
+}
+
+html, body{
+  height: 100%;
+}
+
+body{
+  color: var(--text);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 74, 166, .18), transparent 45%),
+    radial-gradient(circle at 70% 10%, rgba(191, 231, 255, .22), transparent 45%),
+    radial-gradient(circle at 60% 70%, rgba(138, 77, 255, .14), transparent 50%),
+    linear-gradient(180deg, #ffffff 0%, var(--pink-50) 42%, #ffffff 100%);
+}
+
+/* ===== Links ===== */
+a{
+  color: var(--pink-700);
+  text-decoration: none;
+}
+a:hover{
+  color: var(--pink-600);
+  text-decoration: underline;
+}
+
+/* ===== Navbar ===== */
+.navbar{
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 74, 166, .10) 55%, rgba(191, 231, 255, .10) 100%);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.navbar-brand{
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+.brand-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.65);
+}
+
+.brand-dot{
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background: radial-gradient(circle at 30% 30%, #fff, var(--pink-500));
+  box-shadow: 0 0 0 4px rgba(255,74,166,.12);
+}
+
+/* ===== Cards ===== */
+.card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+}
+
+.card-header{
+  background: rgba(255, 74, 166, .06);
+  border-bottom: 1px solid var(--border);
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+}
+
+/* ===== Buttons ===== */
+.btn{
+  border-radius: 999px !important;
+  font-weight: 700;
+}
+
+.btn-pink{
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-700));
+  border: none;
+  color: #fff;
+  box-shadow: 0 10px 18px rgba(255, 74, 166, .25);
+}
+.btn-pink:hover{
+  filter: brightness(1.02);
+  color:#fff;
+}
+
+.btn-soft{
+  background: rgba(255, 74, 166, .10);
+  border: 1px solid rgba(255, 74, 166, .18);
+  color: var(--pink-700);
+}
+.btn-soft:hover{
+  background: rgba(255, 74, 166, .14);
+  color: var(--pink-700);
+}
+
+.btn-ghost{
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(0,0,0,.08);
+  color: #333;
+}
+.btn-ghost:hover{
+  background: rgba(255,255,255,.72);
+}
+
+/* ===== Inputs ===== */
+.form-control, .form-select{
+  border-radius: 14px;
+  border: 1px solid rgba(255, 74, 166, .18);
+  background: rgba(255,255,255,.78);
+}
+.form-control:focus, .form-select:focus{
+  border-color: rgba(255, 74, 166, .38);
+  box-shadow: 0 0 0 .2rem rgba(255, 74, 166, .18);
+}
+
+/* ===== Tables ===== */
+.table{
+  background: transparent;
+}
+.table thead th{
+  border-bottom: 1px solid rgba(255, 74, 166, .18);
+  color: var(--pink-700);
+  font-weight: 800;
+}
+.table tbody td{
+  border-top: 1px solid rgba(255, 74, 166, .10);
+  vertical-align: middle;
+}
+.table-hover tbody tr:hover{
+  background: rgba(255, 74, 166, .06);
+}
+
+/* ===== Pills ===== */
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 74, 166, .18);
+  background: rgba(255,255,255,.60);
+  color: var(--pink-700);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.muted{
+  color: var(--muted) !important;
+}
+
+.thumb{
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 74, 166, .18);
+  background: rgba(255,255,255,.5);
+}
+
+.hero{
+  background: linear-gradient(135deg, rgba(255,74,166,.12), rgba(191,231,255,.18));
+  border: 1px dashed rgba(255,74,166,.20);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+.footer{
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Small helper */
+.kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  border: 1px solid rgba(0,0,0,.10);
+  border-bottom-width: 2px;
+  padding: 2px 7px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.65);
+}

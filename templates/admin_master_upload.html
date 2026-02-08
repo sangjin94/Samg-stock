@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card p-4">
+      <div class="pill">관리자</div>
+      <h4 class="fw-bold mt-1">마스터 업로드</h4>
+      <div class="muted mb-3">
+        엑셀 컬럼: <span class="kbd">ITEM_CODE</span> <span class="kbd">ITEM_NAME</span> <span class="kbd">SCAN_CODE</span>
+        (옵션: <span class="kbd">REMARK</span>)
+      </div>
+
+      <form method="post" enctype="multipart/form-data">
+        <input class="form-control form-control-lg" type="file" name="master" accept=".xlsx,.xls" required>
+        <button class="btn btn-pink mt-3 w-100 btn-lg">검증 후 미리보기</button>
+      </form>
+
+      <div class="mt-3 muted small">
+        * 마스터에서 제외된 상품은 삭제되지 않고 비활성 처리됩니다.
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

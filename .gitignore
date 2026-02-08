@@ -1,0 +1,21 @@
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+
+# flask db / local data
+data_samg/
+*.db
+*.sqlite
+*.xlsx
+
+# env
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+

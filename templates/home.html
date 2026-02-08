@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-3">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <div>
+      <div class="pill">등록 모드</div>
+      <div class="fw-bold fs-4 mt-1">상품 목록</div>
+      <div class="muted">상품을 선택해서 사진을 등록하세요.</div>
+    </div>
+
+    <form class="d-flex gap-2" method="get" action="{{ url_for('register_home') }}">
+      <input class="form-control" name="q" value="{{ q }}" placeholder="상품코드/바코드/상품명/비고 검색">
+      <button class="btn btn-soft">검색</button>
+    </form>
+  </div>
+
+  <hr/>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th style="width:120px;">사진</th>
+          <th>상품</th>
+          <th style="width:120px;">사진수</th>
+          <th style="width:140px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in products %}
+        <tr>
+          <td>
+            <div class="pill">CODE</div>
+            <div class="fw-bold mt-1">{{ p.item_code }}</div>
+          </td>
+          <td>
+            <div class="fw-semibold">{{ p.item_name }}</div>
+            <div class="muted small">BARCODE: {{ p.scan_code }}{% if p.remark %} · {{ p.remark }}{% endif %}</div>
+          </td>
+          <td>
+            <span class="pill">{{ p.photo_count }} 장</span>
+          </td>
+          <td class="text-end">
+            <a class="btn btn-pink btn-sm" href="{{ url_for('register_product_detail', item_code=p.item_code) }}">등록/관리</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="muted small">
+    * 최대 2000개까지 표시됩니다.
+  </div>
+</div>
+{% endblock %}

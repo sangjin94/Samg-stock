@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-3">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <div>
+      <div class="pill">조회 모드</div>
+      <div class="fw-bold fs-4 mt-1">상품 조회</div>
+      <div class="muted">사진 유무/키워드로 검색하세요.</div>
+    </div>
+
+    <form class="d-flex gap-2 flex-wrap" method="get" action="{{ url_for('view_products') }}">
+      <input class="form-control" name="q" value="{{ q }}" placeholder="상품코드/바코드/상품명/비고 검색">
+      <select class="form-select" name="f" style="max-width:180px;">
+        <option value="all" {% if f=="all" %}selected{% endif %}>전체</option>
+        <option value="has" {% if f=="has" %}selected{% endif %}>사진 있음</option>
+        <option value="none" {% if f=="none" %}selected{% endif %}>사진 없음</option>
+      </select>
+      <button class="btn btn-soft">검색</button>
+      <a class="btn btn-ghost" href="{{ url_for('view_export_products_xlsx', q=q, f=f) }}">엑셀</a>
+    </form>
+  </div>
+
+  <hr/>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th style="width:80px;">썸네일</th>
+          <th>상품</th>
+          <th style="width:110px;">사진수</th>
+          <th style="width:140px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>
+            {% if r.thumb_url %}
+              <img class="thumb" src="{{ r.thumb_url }}">
+            {% else %}
+              <div class="thumb d-flex align-items-center justify-content-center muted" style="font-size:12px;">NO</div>
+            {% endif %}
+          </td>
+          <td>
+            <div class="fw-semibold">{{ r.item_name }}</div>
+            <div class="muted small">
+              CODE: {{ r.item_code }} · BARCODE: {{ r.scan_code }}
+              {% if r.remark %} · {{ r.remark }}{% endif %}
+            </div>
+          </td>
+          <td><span class="pill">{{ r.photo_count }} 장</span></td>
+          <td class="text-end">
+            <a class="btn btn-pink btn-sm" href="{{ url_for('view_product_detail', item_code=r.item_code) }}">상세</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="muted small">
+    * 최대 2000개까지 표시됩니다.
+  </div>
+</div>
+{% endblock %}
