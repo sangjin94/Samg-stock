@@ -742,6 +742,8 @@ def view_products():
             p.item_name,
             p.scan_code,
             p.remark,
+            p.box_entry_quantity,
+            p.case_entry_quantity,
             SUM(CASE WHEN ph.photo_type='ITEM' THEN 1 ELSE 0 END) AS item_photo_count,
             SUM(CASE WHEN ph.photo_type='BOX' THEN 1 ELSE 0 END) AS box_photo_count,
             SUM(CASE WHEN ph.photo_type='CASE' THEN 1 ELSE 0 END) AS case_photo_count,
@@ -785,7 +787,13 @@ def view_products():
         params.extend([like, like, like, like])
 
     sql = base_sql + " WHERE " + " AND ".join(where) + """
-        GROUP BY p.item_code, p.item_name, p.scan_code, p.remark
+        GROUP BY
+            p.item_code,
+            p.item_name,
+            p.scan_code,
+            p.remark,
+            p.box_entry_quantity,
+            p.case_entry_quantity
         ORDER BY photo_count DESC, p.item_code ASC
         LIMIT 2000
     """
