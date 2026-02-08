@@ -697,6 +697,12 @@ def admin_master_preview():
     preview = payload.get("preview") or []
 
     if request.method == "POST":
+        action = (request.form.get("_action") or "").strip()
+        if action == "cancel":
+            _clear_pending_master_upload()
+            flash("마스터 반영이 취소되었습니다.", "info")
+            return redirect(url_for("admin_master_upload"))
+
         p = _tmp_master_path(token)
         if not p.exists():
             flash("임시 마스터 데이터가 만료되었습니다. 다시 업로드하세요.", "danger")
