@@ -697,6 +697,12 @@ def admin_master_preview():
     preview = payload.get("preview") or []
 
     if request.method == "POST":
+        action = (request.form.get("_action") or "").strip()
+        if action == "cancel":
+            _clear_pending_master_upload()
+            flash("마스터 반영이 취소되었습니다.", "info")
+            return redirect(url_for("admin_master_upload"))
+
         p = _tmp_master_path(token)
         if not p.exists():
             flash("임시 마스터 데이터가 만료되었습니다. 다시 업로드하세요.", "danger")
@@ -736,6 +742,8 @@ def view_products():
             p.item_name,
             p.scan_code,
             p.remark,
+            p.box_entry_quantity,
+            p.case_entry_quantity,
             SUM(CASE WHEN ph.photo_type='ITEM' THEN 1 ELSE 0 END) AS item_photo_count,
             SUM(CASE WHEN ph.photo_type='BOX' THEN 1 ELSE 0 END) AS box_photo_count,
             SUM(CASE WHEN ph.photo_type='CASE' THEN 1 ELSE 0 END) AS case_photo_count,
@@ -779,7 +787,13 @@ def view_products():
         params.extend([like, like, like, like])
 
     sql = base_sql + " WHERE " + " AND ".join(where) + """
-        GROUP BY p.item_code, p.item_name, p.scan_code, p.remark
+        GROUP BY
+            p.item_code,
+            p.item_name,
+            p.scan_code,
+            p.remark,
+            p.box_entry_quantity,
+            p.case_entry_quantity
         ORDER BY photo_count DESC, p.item_code ASC
         LIMIT 2000
     """

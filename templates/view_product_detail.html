@@ -17,6 +17,16 @@
       &nbsp;|&nbsp;
       CASE_CODE(RRP): {{ product["case_code"] or "" }}
     </div>
+    {% if (product["case_entry_quantity"] or 0)|int > 0 or (product["box_entry_quantity"] or 0)|int > 0 %}
+      <div class="mt-2 d-flex gap-2 flex-wrap">
+        {% if (product["case_entry_quantity"] or 0)|int > 0 %}
+          <span class="badge badge-rrp">RRP 박스 있음</span>
+        {% endif %}
+        {% if (product["box_entry_quantity"] or 0)|int > 0 %}
+          <span class="badge text-bg-light">외박스 있음</span>
+        {% endif %}
+      </div>
+    {% endif %}
     {% if product["remark"] %}
       <div class="mt-2">
         <span class="badge text-bg-light">비고</span>
