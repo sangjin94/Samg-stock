@@ -725,6 +725,12 @@ def admin_master_preview():
     return render_template("admin_master_preview.html", meta=meta, preview=preview)
 
 
+@app.route("/admin/master_upload_confirm", methods=["POST"])
+@require_edit_auth
+def admin_master_upload_confirm():
+    return admin_master_preview()
+
+
 # =========================
 # ✅ 조회용
 # =========================
