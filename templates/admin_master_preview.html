@@ -3,7 +3,7 @@
 <div class="card p-3">
   <div class="pill">관리자</div>
   <div class="fw-bold fs-4 mt-1">마스터 업로드 미리보기</div>
-  <div class="muted mb-3">업로드 파일: <span class="fw-semibold">{{ uploaded_name }}</span></div>
+  <div class="muted mb-3">업로드 파일 미리보기</div>
 
   <div class="row g-3 mb-3">
     <div class="col-md-4">
@@ -56,7 +56,7 @@
     </table>
   </div>
 
-  <form class="d-flex gap-2 mt-3" method="post" action="{{ url_for('admin_master_upload_confirm') }}">
+  <form class="d-flex gap-2 mt-3" method="post" action="{{ url_for('admin_master_preview') }}">
     <button class="btn btn-pink flex-fill" name="_action" value="confirm"
             onclick="return confirm('마스터를 반영할까요? (기존 사진/S3는 유지되고, 제외 상품은 비활성 처리됩니다)')">
       확정 반영
