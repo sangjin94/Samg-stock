@@ -1,0 +1,7 @@
+﻿Flask
+python-dotenv
+boto3
+Pillow
+pandas
+openpyxl
+gunicorn
