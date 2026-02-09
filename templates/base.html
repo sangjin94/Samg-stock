@@ -16,8 +16,9 @@
     <a class="navbar-brand" href="{{ url_for('gate_index') }}">
       <span class="brand-badge">
         <span class="brand-dot"></span>
-        SAMG
-        <img src="{{ url_for('static', filename='brand-logo.svg') }}" alt="SAMG 로고" class="brand-logo">
+SAMG
+<img src="{{ url_for('static', filename='brand-logo.svg') }}" alt="SAMG 로고" class="brand-logo">
+
       </span>
     </a>
 
@@ -37,6 +38,9 @@
 </nav>
 
 <main class="container my-4">
+  ...
+</main>
+
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <div class="mb-3">
