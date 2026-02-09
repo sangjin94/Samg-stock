@@ -41,6 +41,7 @@ MAX_CONTENT_LENGTH = int(os.environ.get("MAX_CONTENT_LENGTH", str(20 * 1024 * 10
 
 VIEW_PASSWORD = os.environ.get("VIEW_PASSWORD", "").strip()
 EDIT_PASSWORD = os.environ.get("EDIT_PASSWORD", "").strip()
+BANNER_IMAGE_URL = os.environ.get("BANNER_IMAGE_URL", "").strip()
 
 FLASK_DEBUG = os.environ.get("FLASK_DEBUG", "0").strip() == "1"
 
@@ -105,6 +106,11 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=COOKIE_SECURE,   # HTTP면 0, HTTPS면 1
 )
+
+
+@app.context_processor
+def inject_banner_image_url():
+    return {"banner_url": BANNER_IMAGE_URL}
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 TMP_MASTER_DIR.mkdir(parents=True, exist_ok=True)
@@ -789,8 +795,17 @@ def view_products():
 
     if q:
         like = f"%{q}%"
-        where.append("(p.item_code LIKE ? OR p.scan_code LIKE ? OR p.item_name LIKE ? OR p.remark LIKE ?)")
-        params.extend([like, like, like, like])
+        where.append(
+            "("
+            "p.item_code LIKE ? OR "
+            "p.scan_code LIKE ? OR "
+            "p.box_code LIKE ? OR "
+            "p.case_code LIKE ? OR "
+            "p.item_name LIKE ? OR "
+            "p.remark LIKE ?"
+            ")"
+        )
+        params.extend([like, like, like, like, like, like])
 
     sql = base_sql + " WHERE " + " AND ".join(where) + """
         GROUP BY
@@ -909,8 +924,17 @@ def register_home():
 
     if q:
         like = f"%{q}%"
-        where.append("(p.item_code LIKE ? OR p.scan_code LIKE ? OR p.item_name LIKE ? OR p.remark LIKE ?)")
-        params.extend([like, like, like, like])
+        where.append(
+            "("
+            "p.item_code LIKE ? OR "
+            "p.scan_code LIKE ? OR "
+            "p.box_code LIKE ? OR "
+            "p.case_code LIKE ? OR "
+            "p.item_name LIKE ? OR "
+            "p.remark LIKE ?"
+            ")"
+        )
+        params.extend([like, like, like, like, like, like])
 
     sql = base_sql
     if where:
