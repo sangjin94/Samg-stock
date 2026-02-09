@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="64" viewBox="0 0 220 64" role="img" aria-label="SAMG 로고">
+  <rect x="0" y="0" width="220" height="64" rx="14" fill="#ffffff"/>
+  <rect x="6" y="6" width="52" height="52" rx="12" fill="#ff4aa6"/>
+  <circle cx="32" cy="32" r="14" fill="#ffffff"/>
+  <text x="74" y="40" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif" font-size="28" font-weight="700" fill="#1f1f1f">
+    SAMG
+  </text>
+</svg>
