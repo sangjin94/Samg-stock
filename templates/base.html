@@ -12,14 +12,12 @@
 <body>
 
 <nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container py-2">
+  <div class="container">
     <a class="navbar-brand" href="{{ url_for('gate_index') }}">
       <span class="brand-badge">
         <span class="brand-dot"></span>
-        SAMG · 캐치티니핑
-        {% if banner_url %}
-          <img src="{{ banner_url }}" alt="캐치티니핑 로고" class="brand-logo">
-        {% endif %}
+        SAMG
+        <img src="{{ url_for('static', filename='brand-logo.svg') }}" alt="SAMG 로고" class="brand-logo">
       </span>
     </a>
 
@@ -28,7 +26,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="nav">
-      <div class="ms-auto d-flex gap-2 flex-wrap">
+      <div class="ms-auto d-flex flex-column flex-lg-row flex-lg-nowrap gap-2">
         <a class="btn btn-soft btn-sm" href="{{ url_for('view_products') }}">조회</a>
         <a class="btn btn-soft btn-sm" href="{{ url_for('register_home') }}">등록</a>
         <a class="btn btn-ghost btn-sm" href="{{ url_for('admin_master_upload') }}">마스터 업로드</a>
@@ -38,12 +36,7 @@
   </div>
 </nav>
 
-<div class="site-banner"
-     role="img"
-     aria-label="사이트 배너 배경"
-     {% if banner_url %}style="--banner-image: url('{{ banner_url }}')" {% endif %}></div>
-
-<div class="container my-4">
+<main class="container my-4">
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <div class="mb-3">
@@ -59,7 +52,7 @@
   <div class="mt-4 footer">
     © SAMG / Catch! Teenieping · 내부 운영용
   </div>
-</div>
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {% block scripts %}{% endblock %}
