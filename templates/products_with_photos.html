@@ -12,7 +12,8 @@
 <div class="row g-3">
   {% for p in products %}
   <div class="col-12 col-md-6 col-xl-4">
-    <div class="card p-3 h-100">
+    <a class="card p-3 h-100 text-decoration-none text-reset card-link"
+       href="{{ url_for('view_product_detail', item_code=p.item_code) }}">
       <div class="d-flex gap-3">
         <div style="width:88px; height:88px;">
           {% if p.thumb_url %}
@@ -30,18 +31,20 @@
           <div class="text-muted small">SCAN_CODE: {{ p.scan_code }}</div>
 
           <div class="mt-2 d-flex gap-2 flex-wrap">
+            {% if (p.case_entry_quantity or 0)|int > 0 %}
+              <span class="badge badge-rrp">RRP 박스 있음</span>
+            {% endif %}
+            {% if (p.box_entry_quantity or 0)|int > 0 %}
+              <span class="badge text-bg-light">외박스 있음</span>
+            {% endif %}
             <span class="badge text-bg-light">외박스 {{ p.box_photo_count }}</span>
             <span class="badge text-bg-light">RRP(CASE) {{ p.case_photo_count }}</span>
             <span class="badge text-bg-light">상품 {{ p.item_photo_count }}</span>
             <span class="badge text-bg-dark">총 {{ p.photo_count }}</span>
           </div>
-
-          <div class="mt-2">
-            <a class="btn btn-soft btn-sm" href="{{ url_for('view_product_detail', item_code=p.item_code) }}">상세</a>
-          </div>
         </div>
       </div>
-    </div>
+    </a>
   </div>
   {% endfor %}
 
@@ -52,4 +55,3 @@
   {% endif %}
 </div>
 {% endblock %}
-

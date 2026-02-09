@@ -23,12 +23,11 @@
           <th style="width:120px;">사진</th>
           <th>상품</th>
           <th style="width:120px;">사진수</th>
-          <th style="width:140px;"></th>
         </tr>
       </thead>
       <tbody>
         {% for p in products %}
-        <tr>
+        <tr class="table-row-link" data-href="{{ url_for('register_product_detail', item_code=p.item_code) }}">
           <td>
             <div class="pill">CODE</div>
             <div class="fw-bold mt-1">{{ p.item_code }}</div>
@@ -40,9 +39,6 @@
           <td>
             <span class="pill">{{ p.photo_count }} 장</span>
           </td>
-          <td class="text-end">
-            <a class="btn btn-pink btn-sm" href="{{ url_for('register_product_detail', item_code=p.item_code) }}">등록/관리</a>
-          </td>
         </tr>
         {% endfor %}
       </tbody>
@@ -53,4 +49,15 @@
     * 최대 2000개까지 표시됩니다.
   </div>
 </div>
+
+<script>
+  document.querySelectorAll(".table-row-link").forEach((row) => {
+    row.addEventListener("click", () => {
+      const href = row.dataset.href;
+      if (href) {
+        window.location.href = href;
+      }
+    });
+  });
+</script>
 {% endblock %}
