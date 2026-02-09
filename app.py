@@ -795,8 +795,17 @@ def view_products():
 
     if q:
         like = f"%{q}%"
-        where.append("(p.item_code LIKE ? OR p.scan_code LIKE ? OR p.item_name LIKE ? OR p.remark LIKE ?)")
-        params.extend([like, like, like, like])
+        where.append(
+            "("
+            "p.item_code LIKE ? OR "
+            "p.scan_code LIKE ? OR "
+            "p.box_code LIKE ? OR "
+            "p.case_code LIKE ? OR "
+            "p.item_name LIKE ? OR "
+            "p.remark LIKE ?"
+            ")"
+        )
+        params.extend([like, like, like, like, like, like])
 
     sql = base_sql + " WHERE " + " AND ".join(where) + """
         GROUP BY
@@ -915,8 +924,17 @@ def register_home():
 
     if q:
         like = f"%{q}%"
-        where.append("(p.item_code LIKE ? OR p.scan_code LIKE ? OR p.item_name LIKE ? OR p.remark LIKE ?)")
-        params.extend([like, like, like, like])
+        where.append(
+            "("
+            "p.item_code LIKE ? OR "
+            "p.scan_code LIKE ? OR "
+            "p.box_code LIKE ? OR "
+            "p.case_code LIKE ? OR "
+            "p.item_name LIKE ? OR "
+            "p.remark LIKE ?"
+            ")"
+        )
+        params.extend([like, like, like, like, like, like])
 
     sql = base_sql
     if where:
