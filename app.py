@@ -42,6 +42,8 @@ MAX_CONTENT_LENGTH = int(os.environ.get("MAX_CONTENT_LENGTH", str(20 * 1024 * 10
 VIEW_PASSWORD = os.environ.get("VIEW_PASSWORD", "").strip()
 EDIT_PASSWORD = os.environ.get("EDIT_PASSWORD", "").strip()
 BANNER_IMAGE_URL = os.environ.get("BANNER_IMAGE_URL", "").strip()
+BANNER_S3_KEY = os.environ.get("BANNER_S3_KEY", "").strip()
+
 
 FLASK_DEBUG = os.environ.get("FLASK_DEBUG", "0").strip() == "1"
 
@@ -109,8 +111,16 @@ app.config.update(
 
 
 @app.context_processor
+
 def inject_banner_image_url():
-    return {"banner_url": BANNER_IMAGE_URL}
+    banner_url = BANNER_IMAGE_URL
+    if not banner_url and BANNER_S3_KEY:
+        try:
+            banner_url = presigned_get_url(BANNER_S3_KEY, expires_sec=PRESIGNED_EXPIRES)
+        except Exception:
+            banner_url = ""
+    return {"banner_url": banner_url}
+
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 TMP_MASTER_DIR.mkdir(parents=True, exist_ok=True)
