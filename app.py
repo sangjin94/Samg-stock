@@ -41,6 +41,7 @@ MAX_CONTENT_LENGTH = int(os.environ.get("MAX_CONTENT_LENGTH", str(20 * 1024 * 10
 
 VIEW_PASSWORD = os.environ.get("VIEW_PASSWORD", "").strip()
 EDIT_PASSWORD = os.environ.get("EDIT_PASSWORD", "").strip()
+BANNER_IMAGE_URL = os.environ.get("BANNER_IMAGE_URL", "").strip()
 
 FLASK_DEBUG = os.environ.get("FLASK_DEBUG", "0").strip() == "1"
 
@@ -105,6 +106,11 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=COOKIE_SECURE,   # HTTP면 0, HTTPS면 1
 )
+
+
+@app.context_processor
+def inject_banner_image_url():
+    return {"banner_url": BANNER_IMAGE_URL}
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 TMP_MASTER_DIR.mkdir(parents=True, exist_ok=True)
@@ -697,6 +703,12 @@ def admin_master_preview():
     preview = payload.get("preview") or []
 
     if request.method == "POST":
+        action = (request.form.get("_action") or "").strip()
+        if action == "cancel":
+            _clear_pending_master_upload()
+            flash("마스터 반영이 취소되었습니다.", "info")
+            return redirect(url_for("admin_master_upload"))
+
         p = _tmp_master_path(token)
         if not p.exists():
             flash("임시 마스터 데이터가 만료되었습니다. 다시 업로드하세요.", "danger")
@@ -719,6 +731,12 @@ def admin_master_preview():
     return render_template("admin_master_preview.html", meta=meta, preview=preview)
 
 
+@app.route("/admin/master_upload_confirm", methods=["POST"])
+@require_edit_auth
+def admin_master_upload_confirm():
+    return admin_master_preview()
+
+
 # =========================
 # ✅ 조회용
 # =========================
@@ -736,6 +754,8 @@ def view_products():
             p.item_name,
             p.scan_code,
             p.remark,
+            p.box_entry_quantity,
+            p.case_entry_quantity,
             SUM(CASE WHEN ph.photo_type='ITEM' THEN 1 ELSE 0 END) AS item_photo_count,
             SUM(CASE WHEN ph.photo_type='BOX' THEN 1 ELSE 0 END) AS box_photo_count,
             SUM(CASE WHEN ph.photo_type='CASE' THEN 1 ELSE 0 END) AS case_photo_count,
@@ -779,7 +799,13 @@ def view_products():
         params.extend([like, like, like, like])
 
     sql = base_sql + " WHERE " + " AND ".join(where) + """
-        GROUP BY p.item_code, p.item_name, p.scan_code, p.remark
+        GROUP BY
+            p.item_code,
+            p.item_name,
+            p.scan_code,
+            p.remark,
+            p.box_entry_quantity,
+            p.case_entry_quantity
         ORDER BY photo_count DESC, p.item_code ASC
         LIMIT 2000
     """

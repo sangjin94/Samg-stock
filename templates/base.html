@@ -35,6 +35,11 @@
   </div>
 </nav>
 
+<div class="site-banner"
+     role="img"
+     aria-label="사이트 배너 배경"
+     {% if banner_url %}style="--banner-image: url('{{ banner_url }}')" {% endif %}></div>
+
 <div class="container my-4">
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
