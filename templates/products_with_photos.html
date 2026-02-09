@@ -12,7 +12,8 @@
 <div class="row g-3">
   {% for p in products %}
   <div class="col-12 col-md-6 col-xl-4">
-    <div class="card p-3 h-100">
+    <a class="card p-3 h-100 text-decoration-none text-reset card-link"
+       href="{{ url_for('view_product_detail', item_code=p.item_code) }}">
       <div class="d-flex gap-3">
         <div style="width:88px; height:88px;">
           {% if p.thumb_url %}
@@ -41,13 +42,9 @@
             <span class="badge text-bg-light">상품 {{ p.item_photo_count }}</span>
             <span class="badge text-bg-dark">총 {{ p.photo_count }}</span>
           </div>
-
-          <div class="mt-2">
-            <a class="btn btn-soft btn-sm" href="{{ url_for('view_product_detail', item_code=p.item_code) }}">상세</a>
-          </div>
         </div>
       </div>
-    </div>
+    </a>
   </div>
   {% endfor %}
 

@@ -111,6 +111,7 @@ app.config.update(
 
 
 @app.context_processor
+BANNER_S3_KEY = "SAMG_BA.png"
 
 def inject_banner_image_url():
     banner_url = BANNER_IMAGE_URL
@@ -120,7 +121,6 @@ def inject_banner_image_url():
         except Exception:
             banner_url = ""
     return {"banner_url": banner_url}
-
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 TMP_MASTER_DIR.mkdir(parents=True, exist_ok=True)
@@ -786,9 +786,9 @@ def view_products():
                 WHERE ph2.product_item_code = p.item_code
                 ORDER BY
                   CASE
-                    WHEN ph2.photo_type='ITEM' THEN 0
+                    WHEN ph2.photo_type='CASE' THEN 0
                     WHEN ph2.photo_type='BOX' THEN 1
-                    WHEN ph2.photo_type='CASE' THEN 2
+                    WHEN ph2.photo_type='ITEM' THEN 2
                     ELSE 9
                   END,
                   ph2.uploaded_at ASC,
