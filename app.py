@@ -43,8 +43,6 @@ VIEW_PASSWORD = os.environ.get("VIEW_PASSWORD", "").strip()
 EDIT_PASSWORD = os.environ.get("EDIT_PASSWORD", "").strip()
 BANNER_IMAGE_URL = os.environ.get("BANNER_IMAGE_URL", "").strip()
 BANNER_S3_KEY = os.environ.get("BANNER_S3_KEY", "").strip()
-
-
 FLASK_DEBUG = os.environ.get("FLASK_DEBUG", "0").strip() == "1"
 
 # ✅ 기존 COOKIE_SECURE + 신규 SAMG_COOKIE_SECURE 둘 다 지원
@@ -112,6 +110,7 @@ app.config.update(
 
 @app.context_processor
 BANNER_S3_KEY = "SAMG_BA.png"
+
 
 def inject_banner_image_url():
     banner_url = BANNER_IMAGE_URL
