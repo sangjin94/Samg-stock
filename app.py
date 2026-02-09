@@ -41,8 +41,7 @@ MAX_CONTENT_LENGTH = int(os.environ.get("MAX_CONTENT_LENGTH", str(20 * 1024 * 10
 
 VIEW_PASSWORD = os.environ.get("VIEW_PASSWORD", "").strip()
 EDIT_PASSWORD = os.environ.get("EDIT_PASSWORD", "").strip()
-BANNER_IMAGE_URL = os.environ.get("BANNER_IMAGE_URL", "").strip()
-BANNER_S3_KEY = os.environ.get("BANNER_S3_KEY", "").strip()
+LOGO_S3_KEY = os.environ.get("LOGO_S3_KEY", "SAMG_BA.png").strip()
 FLASK_DEBUG = os.environ.get("FLASK_DEBUG", "0").strip() == "1"
 
 # ✅ 기존 COOKIE_SECURE + 신규 SAMG_COOKIE_SECURE 둘 다 지원
@@ -107,19 +106,16 @@ app.config.update(
     SESSION_COOKIE_SECURE=COOKIE_SECURE,   # HTTP면 0, HTTPS면 1
 )
 
-
 @app.context_processor
-BANNER_S3_KEY = "SAMG_BA.png"
+def inject_logo_image_url():
+    if not LOGO_S3_KEY:
+        return {"logo_url": ""}
+    try:
+        logo_url = presigned_get_url(LOGO_S3_KEY, expires_sec=PRESIGNED_EXPIRES)
+    except Exception:
+        logo_url = ""
+    return {"logo_url": logo_url}
 
-
-def inject_banner_image_url():
-    banner_url = BANNER_IMAGE_URL
-    if not banner_url and BANNER_S3_KEY:
-        try:
-            banner_url = presigned_get_url(BANNER_S3_KEY, expires_sec=PRESIGNED_EXPIRES)
-        except Exception:
-            banner_url = ""
-    return {"banner_url": banner_url}
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 TMP_MASTER_DIR.mkdir(parents=True, exist_ok=True)
