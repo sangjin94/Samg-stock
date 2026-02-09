@@ -42,6 +42,7 @@ MAX_CONTENT_LENGTH = int(os.environ.get("MAX_CONTENT_LENGTH", str(20 * 1024 * 10
 VIEW_PASSWORD = os.environ.get("VIEW_PASSWORD", "").strip()
 EDIT_PASSWORD = os.environ.get("EDIT_PASSWORD", "").strip()
 LOGO_S3_KEY = os.environ.get("LOGO_S3_KEY", "SAMG_BA.png").strip()
+
 FLASK_DEBUG = os.environ.get("FLASK_DEBUG", "0").strip() == "1"
 
 # ✅ 기존 COOKIE_SECURE + 신규 SAMG_COOKIE_SECURE 둘 다 지원
@@ -115,7 +116,6 @@ def inject_logo_image_url():
     except Exception:
         logo_url = ""
     return {"logo_url": logo_url}
-
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 TMP_MASTER_DIR.mkdir(parents=True, exist_ok=True)
