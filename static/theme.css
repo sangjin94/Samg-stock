@@ -241,13 +241,6 @@ a:hover{
   background: rgba(255,255,255,.5);
 }
 
-.hero{
-  background: linear-gradient(135deg, rgba(255,74,166,.12), rgba(191,231,255,.18));
-  border: 1px dashed rgba(255,74,166,.20);
-  border-radius: var(--radius);
-  padding: 18px;
-}
-
 .footer{
   color: var(--muted);
   font-size: 12px;
