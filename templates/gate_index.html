@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-lg-8">
-      <div class="card p-4">
-        <div class="d-flex align-items-center gap-2 mb-2">
+
+      <div class="card p-4 text-center">
+
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
           <div class="brand-dot"></div>
-          <h3 class="m-0 fw-bold">SAMG 엔터테인먼트 <br> (캐치티니핑)</h3>
+          <h3 class="m-0 fw-bold">
+            SAMG 엔터테인먼트<br> Hanex
+          </h3>
         </div>
+
         <p class="text-muted mb-4">
-          상품 사진/마스터 관리 시스템입니다.<br><b>조회</b> 또는 <b>등록</b> 화면으로 들어가세요.
+          상품 사진/마스터 관리 시스템입니다.<br>
+          조회 또는 등록 화면으로 들어가세요.
         </p>
 
-        <div class="d-flex flex-wrap gap-2">
+        <div class="d-flex justify-content-center flex-wrap gap-2">
           <a class="btn btn-pink px-4" href="{{ url_for('auth_view') }}">조회 화면</a>
           <a class="btn btn-soft px-4" href="{{ url_for('auth_edit') }}">등록 화면</a>
         </div>
@@ -23,8 +30,11 @@
           • 조회/등록 암호키는 서버의 <code>.env</code>에서 관리됩니다.<br/>
           • 사진은 S3에 저장되며, 목록/상세에서 자동으로 미리보기가 표시됩니다.
         </div>
+
       </div>
+
     </div>
   </div>
 </div>
+
 {% endblock %}
